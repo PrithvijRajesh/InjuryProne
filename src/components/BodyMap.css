@@ -2,15 +2,16 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: space-between;
-  min-height: 68vh;
-  gap: 24px;
+  gap: 22px;
+  padding: 8px 0 4px;
 }
 
 .body-map-credit {
   color: var(--text-dim);
-  font-size: 0.75rem;
-  margin: 0;
+  opacity: 0.7;
+  font-family: var(--font-mono);
+  font-size: 0.68rem;
+  margin: 4px 0 0;
 }
 
 .body-map-credit a {
@@ -18,11 +19,13 @@
 }
 
 .body-map {
+  position: relative;
   display: flex;
   gap: clamp(24px, 6vw, 72px);
   justify-content: center;
   align-items: flex-start;
   flex-wrap: wrap;
+  padding: 30px 26px 22px;
 }
 
 .body-figure {
@@ -40,11 +43,11 @@
 }
 
 .body-figure figcaption {
-  font-family: var(--font-display);
-  letter-spacing: 0.12em;
+  font-family: var(--font-mono);
+  font-weight: 500;
   color: var(--text-dim);
-  font-size: 0.85rem;
-  text-transform: uppercase;
+  font-size: 0.72rem;
+  letter-spacing: 0.04em;
 }
 
 .body-decorative {
@@ -57,6 +60,9 @@
 .body-hotspot {
   cursor: pointer;
   outline: none;
+  transform-box: fill-box;
+  transform-origin: center;
+  transition: transform 0.2s var(--ease);
 }
 
 .body-hotspot > * {
@@ -67,14 +73,19 @@
   transition:
     fill 0.15s ease,
     stroke 0.15s ease,
-    filter 0.15s ease;
+    filter 0.2s ease;
+}
+
+.body-hotspot:hover,
+.body-hotspot:focus-visible {
+  transform: scale(1.025);
 }
 
 .body-hotspot:hover > *,
 .body-hotspot:focus-visible > * {
   fill: var(--accent-dim);
   stroke: var(--accent);
-  filter: drop-shadow(0 0 6px var(--accent-glow));
+  filter: drop-shadow(0 0 8px var(--accent-glow));
 }
 
 .body-hotspot:focus-visible {

@@ -11,7 +11,11 @@ function App() {
   return (
     <div className="app">
       <header className="app-header">
-        <h1>InjuryProne</h1>
+        <h1>
+          <span className="brand-mark" aria-hidden="true" />
+          <span className="accent-letter">I</span>njury
+          <span className="accent-letter">P</span>rone
+        </h1>
         <p>Click where it hurts.</p>
       </header>
 
@@ -29,7 +33,7 @@ function App() {
               initial={{ opacity: 0, scale: 1.1 }}
               animate={{ opacity: 1, scale: 1 }}
               exit={{ opacity: 0, scale: 0.9 }}
-              transition={{ duration: 0.35, ease: 'easeOut' }}
+              transition={{ duration: 0.4, ease: [0.22, 1, 0.36, 1] }}
             >
               <BodyMap onSelectGroup={setSelectedGroup} />
             </motion.div>

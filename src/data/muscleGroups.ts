@@ -10,10 +10,13 @@ export type MuscleGroup = {
 
 // Overview body-map polygon data adapted from react-body-highlighter
 // (https://github.com/giavinh79/react-body-highlighter, MIT License, Copyright (c) 2020 GV79).
-// Same viewBox/coordinate space the source library renders at.
-// Height covers the tallest content across both views (the back view's calves
-// reach y=2200) so the front and back figures render at the same box size.
-export const OVERVIEW_VIEWBOX = { w: 1000, h: 2200 };
+// Same x/width/height coordinate space for both views: front now has its own
+// feet shapes (added below, since the source data stopped at the shins) so
+// both figures reach the same depth and render at the same size/scale.
+export const VIEWBOX = {
+  front: { w: 1000, h: 2200 },
+  back: { w: 1000, h: 2200 },
+};
 
 function poly(...pointSets: string[]): PolygonShape[] {
   return pointSets.map((points) => ({ kind: 'polygon', points }));
@@ -37,6 +40,10 @@ export const DECORATIVE_SHAPES: Record<'front' | 'back', Shape[]> = {
       '727 1951 698 1592 653 1584 641 1624 641 1653 657 1771',
       '355 1584 359 1624 359 1669 351 1722 351 1767 322 1820 306 1873 269 1947 273 1878 282 1804 286 1755 290 1698 298 1641 302 1588',
     ), // calves (front view)
+    ...poly(
+      '792 1955 751 1955 742 2010 764 2195 799 2180 809 2035',
+      '208 1955 249 1955 258 2010 236 2195 201 2180 191 2035',
+    ), // feet (front view) — brings the front figure down to the same depth as the back view's feet
   ],
   back: [
     ...poly('506 0 460 9 409 55 404 128 451 200 557 200 591 136 596 47 557 13'), // head

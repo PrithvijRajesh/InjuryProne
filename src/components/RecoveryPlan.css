@@ -9,46 +9,98 @@
 }
 
 .recovery-sections {
+  counter-reset: recovery-section;
   display: flex;
   flex-direction: column;
-  gap: 14px;
+  gap: 16px;
   width: 100%;
-  margin-top: 8px;
+  margin-top: 10px;
 }
 
 .recovery-section {
+  counter-increment: recovery-section;
   background: var(--bg-panel);
   border: 1px solid var(--border);
-  border-radius: 14px;
-  padding: 16px 20px;
+  border-radius: var(--radius-lg);
+  padding: 20px 22px;
   text-align: left;
+  box-shadow: var(--shadow-card);
+  opacity: 0;
+  animation: fade-in-up 0.45s var(--ease) forwards;
+}
+
+.recovery-sections .recovery-section:nth-child(1) {
+  animation-delay: 0.02s;
+}
+.recovery-sections .recovery-section:nth-child(2) {
+  animation-delay: 0.08s;
+}
+.recovery-sections .recovery-section:nth-child(3) {
+  animation-delay: 0.14s;
+}
+.recovery-sections .recovery-section:nth-child(4) {
+  animation-delay: 0.2s;
 }
 
 .recovery-section--warning {
-  border-color: var(--accent);
+  border-color: rgba(255, 77, 94, 0.35);
+  border-top: 2px solid var(--accent);
 }
 
 .recovery-section-title {
+  display: flex;
+  align-items: baseline;
+  gap: 9px;
   color: var(--text);
+  font-weight: 700;
+  font-size: 1rem;
+  margin: 0 0 12px;
+}
+
+.recovery-section-title::before {
+  content: counter(recovery-section, decimal-leading-zero);
+  font-family: var(--font-mono);
   font-weight: 600;
-  font-size: 0.95rem;
-  margin: 0 0 10px;
+  font-size: 0.72rem;
+  color: var(--accent);
+  letter-spacing: 0.02em;
 }
 
 .recovery-list {
   margin: 0;
-  padding-left: 20px;
+  padding: 0;
+  list-style: none;
   display: flex;
   flex-direction: column;
-  gap: 6px;
+  gap: 8px;
 }
 
 .recovery-list li {
+  position: relative;
+  padding-left: 18px;
   color: var(--text-dim);
+  font-weight: 500;
   font-size: 0.88rem;
-  line-height: 1.4;
+  line-height: 1.45;
+}
+
+.recovery-list li::before {
+  content: "";
+  position: absolute;
+  left: 2px;
+  top: 0.6em;
+  width: 5px;
+  height: 5px;
+  border-radius: 50%;
+  background: var(--text-dim);
+  opacity: 0.6;
 }
 
 .recovery-section--warning .recovery-list li {
   color: var(--text);
+}
+
+.recovery-section--warning .recovery-list li::before {
+  background: var(--accent);
+  opacity: 1;
 }

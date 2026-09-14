@@ -1,18 +1,30 @@
 :root {
-  --bg: #0a0b0d;
-  --bg-elevated: #141519;
-  --bg-panel: #1b1d23;
-  --border: #2a2d35;
-  --text: #eef0f4;
-  --text-dim: #9aa0ab;
+  --bg: #0b0b0c;
+  --bg-panel: #16161a;
+  --bg-elevated: #1c1c20;
+  --border: rgba(255, 255, 255, 0.08);
+  --border-strong: rgba(255, 255, 255, 0.16);
+  --text: #f5f3ef;
+  --text-dim: #a6a3a0;
   --accent: #ff4d5e;
+  --accent-deep: #c81f31;
   --accent-dim: #ff4d5e33;
-  --accent-glow: #ff4d5e88;
+  --accent-soft: rgba(255, 77, 94, 0.12);
+  --accent-glow: rgba(255, 77, 94, 0.55);
   --body-fill: #d8dce4;
   --body-fill-hover: #f2f4f8;
 
-  --font-display: "Bebas Neue", sans-serif;
-  --font-body: "Inter", system-ui, sans-serif;
+  --font: "Nunito", system-ui, sans-serif;
+  --font-mono: "JetBrains Mono", ui-monospace, "SF Mono", Menlo, monospace;
+
+  --radius-sm: 8px;
+  --radius-md: 12px;
+  --radius-lg: 18px;
+
+  --ease: cubic-bezier(0.22, 1, 0.36, 1);
+
+  --shadow-card: 0 1px 0 rgba(255, 255, 255, 0.03) inset, 0 12px 28px -18px rgba(0, 0, 0, 0.8);
+  --shadow-elevated: 0 18px 40px -18px rgba(0, 0, 0, 0.85);
 
   color-scheme: dark;
 }
@@ -29,20 +41,125 @@ body,
 
 body {
   margin: 0;
-  background: var(--bg);
   color: var(--text);
-  font-family: var(--font-body);
+  font-family: var(--font);
+  font-weight: 400;
   -webkit-font-smoothing: antialiased;
+  background-color: var(--bg);
+  background-image:
+    linear-gradient(rgba(255, 255, 255, 0.028) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255, 255, 255, 0.028) 1px, transparent 1px),
+    linear-gradient(180deg, #141416 0%, #0e0e10 46%, #08080a 100%);
+  background-size:
+    44px 44px,
+    44px 44px,
+    auto;
+  background-attachment: fixed;
+  background-repeat: repeat, repeat, no-repeat;
 }
 
 h1,
 h2,
 h3 {
-  font-family: var(--font-display);
-  letter-spacing: 0.02em;
+  font-family: var(--font);
+  font-weight: 800;
+  letter-spacing: -0.01em;
   margin: 0;
 }
 
 button {
   font-family: inherit;
+}
+
+/* Small monospace "readout" label — used for the app's data/instrument
+   chrome (tag lines, step counters, coordinates) as a deliberate second
+   voice against the humanist Nunito used for headings and body copy. */
+.tag-label {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-family: var(--font-mono);
+  font-weight: 500;
+  font-size: 0.72rem;
+  letter-spacing: 0.02em;
+  color: var(--text-dim);
+}
+
+.tag-label::before {
+  content: "//";
+  color: var(--accent);
+  font-weight: 600;
+}
+
+/* Reticle brand mark: a target ring + center dot, standing in for the
+   "pinpoint where it hurts" interaction instead of a generic wordmark. */
+.brand-mark {
+  position: relative;
+  display: inline-block;
+  width: 15px;
+  height: 15px;
+  margin-right: 3px;
+  vertical-align: -1px;
+  border: 1.5px solid var(--accent);
+  border-radius: 50%;
+}
+
+.brand-mark::before {
+  content: "";
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 3px;
+  height: 3px;
+  border-radius: 50%;
+  background: var(--accent);
+  transform: translate(-50%, -50%);
+}
+
+/* Viewfinder corner brackets — used to frame the body map. */
+.frame-corner {
+  position: absolute;
+  width: 16px;
+  height: 16px;
+  border: 1.5px solid rgba(255, 77, 94, 0.4);
+  pointer-events: none;
+}
+
+.frame-corner--tl {
+  top: 0;
+  left: 0;
+  border-right: none;
+  border-bottom: none;
+}
+
+.frame-corner--tr {
+  top: 0;
+  right: 0;
+  border-left: none;
+  border-bottom: none;
+}
+
+.frame-corner--bl {
+  bottom: 0;
+  left: 0;
+  border-right: none;
+  border-top: none;
+}
+
+.frame-corner--br {
+  bottom: 0;
+  right: 0;
+  border-left: none;
+  border-top: none;
+}
+
+@keyframes fade-in-up {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }

@@ -8,7 +8,7 @@ InjuryProne
 
 ## Project Description
 
-An interactive web application for someone dealing with injurt or soreness from athletic activity or lifting. The user would see an interactive model of the human body and can click on the place on the body that corresponds to where they have the pain or soreness. The user can then select symptoms they see and will be given most likely diagnosis and how they can recover.
+An interactive web application for someone dealing with injury or soreness from athletic activity or lifting. The user would see an interactive model of the human body and can click on the place on the body that corresponds to where they have the pain or soreness. The user can then select symptoms they see and will be given most likely diagnosis and how they can recover.
 
 ## Stack
 
@@ -27,4 +27,4 @@ Vite + React + TypeScript, single-page app, no backend yet. Framer Motion for an
 
 ## Current Focus
 
-For each diagnosis creating recovery tips and prevention tips.
+Cleaning up application and minor details before publishing on Vercel

@@ -39,7 +39,7 @@ export function MuscleGroupDetail({ group, onBack }: MuscleGroupDetailProps) {
       initial={{ opacity: 0, scale: 0.9 }}
       animate={{ opacity: 1, scale: 1 }}
       exit={{ opacity: 0, scale: 0.9 }}
-      transition={{ duration: 0.35, ease: 'easeOut' }}
+      transition={{ duration: 0.4, ease: [0.22, 1, 0.36, 1] }}
     >
       <button className="back-button" onClick={onBack}>
         ← Back to body

@@ -1,4 +1,4 @@
-import { DECORATIVE_SHAPES, MUSCLE_GROUPS, OVERVIEW_VIEWBOX, type MuscleGroup } from '../data/muscleGroups';
+import { DECORATIVE_SHAPES, MUSCLE_GROUPS, VIEWBOX, type MuscleGroup } from '../data/muscleGroups';
 import { ShapeRenderer } from './ShapeRenderer';
 import './BodyMap.css';
 
@@ -9,10 +9,12 @@ type BodyMapProps = {
 function Figure({ view, onSelectGroup }: { view: 'front' | 'back'; onSelectGroup: (g: MuscleGroup) => void }) {
   const groups = MUSCLE_GROUPS.filter((g) => g.view === view);
 
+  const viewBox = VIEWBOX[view];
+
   return (
     <figure className="body-figure">
       <svg
-        viewBox={`0 0 ${OVERVIEW_VIEWBOX.w} ${OVERVIEW_VIEWBOX.h}`}
+        viewBox={`0 0 ${viewBox.w} ${viewBox.h}`}
         role="group"
         aria-label={`${view} view of body`}
       >
@@ -45,6 +47,10 @@ export function BodyMap({ onSelectGroup }: BodyMapProps) {
   return (
     <div className="body-map-wrap">
       <div className="body-map">
+        <span className="frame-corner frame-corner--tl" aria-hidden="true" />
+        <span className="frame-corner frame-corner--tr" aria-hidden="true" />
+        <span className="frame-corner frame-corner--bl" aria-hidden="true" />
+        <span className="frame-corner frame-corner--br" aria-hidden="true" />
         <Figure view="front" onSelectGroup={onSelectGroup} />
         <Figure view="back" onSelectGroup={onSelectGroup} />
       </div>

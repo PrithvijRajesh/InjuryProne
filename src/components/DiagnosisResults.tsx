@@ -1,4 +1,5 @@
 import { motion } from 'framer-motion';
+import type { CSSProperties } from 'react';
 import type { DiagnosisMatch } from '../data/diagnoses';
 import './DiagnosisResults.css';
 
@@ -26,7 +27,7 @@ export function DiagnosisResults({
       className="diagnosis-results"
       initial={{ opacity: 0, y: 12 }}
       animate={{ opacity: 1, y: 0 }}
-      transition={{ duration: 0.3, ease: 'easeOut' }}
+      transition={{ duration: 0.35, ease: [0.22, 1, 0.36, 1] }}
     >
       <p className="results-label">Possible diagnoses for</p>
       <p className="results-group-name">{groupName}</p>
@@ -51,13 +52,19 @@ export function DiagnosisResults({
                   {LEVEL_LABEL[match.level]}
                 </span>
               </div>
+              <div className="confidence-meter-row" aria-hidden="true">
+                <span className="confidence-meter" style={{ '--fill': match.confidence } as CSSProperties}>
+                  <span className="confidence-meter-fill" />
+                </span>
+                <span className="confidence-value">{Math.round(match.confidence * 100)}%</span>
+              </div>
               <p className="diagnosis-summary">{match.diagnosis.summary}</p>
               <p className="diagnosis-telltale">
                 <span className="diagnosis-telltale-label">Telltale sign: </span>
                 {match.diagnosis.telltaleSign}
               </p>
               <p className="diagnosis-match-detail">
-                {match.matchedCount} of {match.totalIndicators} matching signs
+                <strong>{match.matchedCount}</strong> of <strong>{match.totalIndicators}</strong> matching signs
               </p>
               <p className="diagnosis-card-cta">See recovery & prevention tips →</p>
             </button>

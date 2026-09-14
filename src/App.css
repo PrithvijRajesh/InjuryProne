@@ -3,27 +3,30 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-  padding: 48px 20px 80px;
-  gap: 40px;
+  padding: 44px 20px 72px;
+  gap: 36px;
 }
 
 .app-header {
   text-align: center;
+  padding-top: 8px;
 }
 
 .app-header h1 {
-  font-size: clamp(2.5rem, 6vw, 4rem);
+  font-size: clamp(1.75rem, 4vw, 2.125rem);
   color: var(--text);
 }
 
-.app-header h1::first-letter {
+.app-header h1 .accent-letter {
   color: var(--accent);
 }
 
 .app-header p {
   color: var(--text-dim);
-  margin: 4px 0 0;
-  font-size: 1.05rem;
+  font-weight: 500;
+  margin: 6px 0 0;
+  font-size: 1rem;
+  letter-spacing: 0.01em;
 }
 
 .app-main {

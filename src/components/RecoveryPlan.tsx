@@ -16,7 +16,7 @@ export function RecoveryPlan({ diagnosis, onBackToResults }: RecoveryPlanProps) 
       className="recovery-plan"
       initial={{ opacity: 0, y: 12 }}
       animate={{ opacity: 1, y: 0 }}
-      transition={{ duration: 0.3, ease: 'easeOut' }}
+      transition={{ duration: 0.35, ease: [0.22, 1, 0.36, 1] }}
     >
       <p className="results-label">Recovery & prevention for</p>
       <p className="results-group-name">{diagnosis.name}</p>
