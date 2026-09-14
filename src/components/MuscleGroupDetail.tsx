@@ -2,6 +2,8 @@ import { useState } from 'react';
 import { motion } from 'framer-motion';
 import type { MuscleGroup } from '../data/muscleGroups';
 import { SYMPTOM_CATEGORIES_BY_GROUP, type SymptomCategoryId } from '../data/symptoms';
+import { getDiagnosisMatches } from '../data/diagnoses';
+import { DiagnosisResults } from './DiagnosisResults';
 import './MuscleGroupDetail.css';
 
 type MuscleGroupDetailProps = {
@@ -14,7 +16,7 @@ type Selections = Partial<Record<SymptomCategoryId, string[]>>;
 export function MuscleGroupDetail({ group, onBack }: MuscleGroupDetailProps) {
   const categories = SYMPTOM_CATEGORIES_BY_GROUP[group.id] ?? [];
   const [selections, setSelections] = useState<Selections>({});
-  const [submitted, setSubmitted] = useState(false);
+  const [showResults, setShowResults] = useState(false);
 
   function toggleOption(categoryId: SymptomCategoryId, optionId: string) {
     setSelections((current) => {
@@ -40,44 +42,48 @@ export function MuscleGroupDetail({ group, onBack }: MuscleGroupDetailProps) {
         ← Back to body
       </button>
 
-      <div className="symptom-panel">
-        <p className="selection-label">Selected</p>
-        <p className="selection-name">{group.name}</p>
-        <p className="symptom-prompt">Answer what applies — you can pick more than one in each section.</p>
+      {showResults ? (
+        <DiagnosisResults
+          groupName={group.name}
+          matches={getDiagnosisMatches(group.id, selections)}
+          onBackToSymptoms={() => setShowResults(false)}
+        />
+      ) : (
+        <div className="symptom-panel">
+          <p className="selection-label">Selected</p>
+          <p className="selection-name">{group.name}</p>
+          <p className="symptom-prompt">Answer what applies — you can pick more than one in each section.</p>
 
-        {categories.map((category) => {
-          const selected = selections[category.id] ?? [];
-          return (
-            <div className="symptom-category" key={category.id}>
-              <p className="category-label">{category.label}</p>
-              <div className="symptom-list" role="group" aria-label={category.label}>
-                {category.options.map((option) => {
-                  const isSelected = selected.includes(option.id);
-                  return (
-                    <button
-                      key={option.id}
-                      type="button"
-                      className={`symptom-chip${isSelected ? ' symptom-chip--selected' : ''}`}
-                      aria-pressed={isSelected}
-                      onClick={() => toggleOption(category.id, option.id)}
-                    >
-                      {option.label}
-                    </button>
-                  );
-                })}
+          {categories.map((category) => {
+            const selected = selections[category.id] ?? [];
+            return (
+              <div className="symptom-category" key={category.id}>
+                <p className="category-label">{category.label}</p>
+                <div className="symptom-list" role="group" aria-label={category.label}>
+                  {category.options.map((option) => {
+                    const isSelected = selected.includes(option.id);
+                    return (
+                      <button
+                        key={option.id}
+                        type="button"
+                        className={`symptom-chip${isSelected ? ' symptom-chip--selected' : ''}`}
+                        aria-pressed={isSelected}
+                        onClick={() => toggleOption(category.id, option.id)}
+                      >
+                        {option.label}
+                      </button>
+                    );
+                  })}
+                </div>
               </div>
-            </div>
-          );
-        })}
+            );
+          })}
 
-        <button className="continue-button" disabled={totalSelected === 0} onClick={() => setSubmitted(true)}>
-          Continue
-        </button>
-
-        {submitted && (
-          <p className="selection-next">Diagnosis (next feature) is coming in a later feature.</p>
-        )}
-      </div>
+          <button className="continue-button" disabled={totalSelected === 0} onClick={() => setShowResults(true)}>
+            Continue
+          </button>
+        </div>
+      )}
     </motion.div>
   );
 }

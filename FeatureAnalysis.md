@@ -24,6 +24,21 @@
 - `MuscleGroupDetail.tsx` renders each category as a labeled section of toggle chips; selection state is `Record<categoryId, string[]>` so choices in different categories (and multiple choices within one category) are tracked independently. Continue is disabled only while every category is empty.
 - Diagnosis logic isn't built yet — Continue currently just reveals a "coming in a later feature" placeholder, the same pattern used for the group-selection step before this one was built.
 
+## Diagnosis with confidence (Milestone 3)
+
+**What it does:** After answering symptom questions and clicking Continue, the user sees a ranked list of possible diagnoses for their muscle group, each with a High/Medium/Low confidence label, a one-line plain-language summary, and how many of that diagnosis's typical signs matched their answers. If nothing matches well, they see a fallback suggesting they see a doctor instead of a fabricated result.
+
+**Why it matters:** This is PRD feature 3, and the payoff for the two features before it. The key design decision is scoring against **indicators** rather than authoring one diagnosis per exact combination of symptoms — with 4 categories and several options each, the number of possible combinations is far too large to enumerate by hand. Instead, each diagnosis lists the symptom options that point toward it, and any combination the user actually picks is scored against every diagnosis for that group by how many of its indicators were matched. This means: (1) every possible combination gets scored, not just ones someone thought to author in advance, and (2) two different combinations that both touch enough of the same indicators naturally land on the same diagnosis — e.g. for Knees, both "below the kneecap + bending + running/jumping + growing teen athlete" and a partial version of the same answers still point to Osgood-Schlatter, while swapping "growing teen athlete" for "running" shifts the top result to Patellar Tendinitis instead, without either combination being individually hard-coded.
+
+Confidence is intentionally shown as a bucket (High/Medium/Low) rather than a precise percentage — this is a self-report tool built from a fixed set of hand-authored indicators, not a validated diagnostic test, so a number like "73%" would imply more precision than the underlying data supports.
+
+**How it's built:**
+- `src/data/diagnoses.ts` — `DIAGNOSES_BY_GROUP`, keyed by muscle-group id. Each diagnosis has an `indicators` map from `SymptomCategoryId` to the option ids (from `symptoms.ts`) that support it. `getDiagnosisMatches(groupId, selections)` scores every diagnosis in the group as `matchedIndicators / totalIndicators`, drops zero-match diagnoses, sorts by confidence (ties broken by raw matched count), and returns the top 4.
+- `src/components/DiagnosisResults.tsx` + `.css` — renders the ranked cards, the confidence badge, the no-match fallback, and the disclaimer; reuses the app's existing panel/chip visual language.
+- `MuscleGroupDetail.tsx` — Continue now computes matches from the current selections and swaps the symptom form for `DiagnosisResults`; "Back to symptoms" swaps back without clearing the selections, so revising answers doesn't force the user to start over.
+
+**Verification note:** checked with a standalone script exercising the real scoring function against realistic symptom combinations (the Chrome browser extension wasn't available this session to click through the UI directly) — confirmed the Osgood-Schlatter vs. Patellar Tendinitis vs. Meniscus Tear cases above, plus that unmatched or empty selections correctly return no results.
+
 ## Body map sizing fix
 
 **What it does:** The front and back body diagrams now render at the same physical size, and the "Body map adapted from..." credit line sits at the bottom of the screen instead of hugging the figures.
