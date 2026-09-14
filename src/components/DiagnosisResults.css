@@ -46,10 +46,28 @@
   border-radius: 14px;
   padding: 16px 20px;
   text-align: left;
+  width: 100%;
+  cursor: pointer;
+  font: inherit;
+  transition:
+    border-color 0.15s ease,
+    transform 0.1s ease;
+}
+
+.diagnosis-card:hover {
+  border-color: var(--accent);
+  transform: translateY(-1px);
 }
 
 .diagnosis-card--high {
   border-color: var(--accent);
+}
+
+.diagnosis-card-cta {
+  color: var(--accent);
+  font-size: 0.8rem;
+  font-weight: 600;
+  margin: 10px 0 0;
 }
 
 .diagnosis-card-header {
@@ -92,6 +110,22 @@
   color: var(--text-dim);
   font-size: 0.9rem;
   margin: 8px 0 4px;
+}
+
+.diagnosis-telltale {
+  color: var(--text);
+  font-size: 0.85rem;
+  line-height: 1.4;
+  margin: 8px 0 4px;
+  padding: 8px 12px;
+  background: var(--bg-elevated);
+  border-left: 2px solid var(--accent);
+  border-radius: 4px;
+}
+
+.diagnosis-telltale-label {
+  color: var(--accent);
+  font-weight: 600;
 }
 
 .diagnosis-match-detail {

@@ -6,6 +6,7 @@ type DiagnosisResultsProps = {
   groupName: string;
   matches: DiagnosisMatch[];
   onBackToSymptoms: () => void;
+  onSelectDiagnosis: (match: DiagnosisMatch) => void;
 };
 
 const LEVEL_LABEL: Record<DiagnosisMatch['level'], string> = {
@@ -14,7 +15,12 @@ const LEVEL_LABEL: Record<DiagnosisMatch['level'], string> = {
   low: 'Low confidence',
 };
 
-export function DiagnosisResults({ groupName, matches, onBackToSymptoms }: DiagnosisResultsProps) {
+export function DiagnosisResults({
+  groupName,
+  matches,
+  onBackToSymptoms,
+  onSelectDiagnosis,
+}: DiagnosisResultsProps) {
   return (
     <motion.div
       className="diagnosis-results"
@@ -33,7 +39,12 @@ export function DiagnosisResults({ groupName, matches, onBackToSymptoms }: Diagn
       ) : (
         <div className="diagnosis-list">
           {matches.map((match) => (
-            <div className={`diagnosis-card diagnosis-card--${match.level}`} key={match.diagnosis.id}>
+            <button
+              type="button"
+              className={`diagnosis-card diagnosis-card--${match.level}`}
+              key={match.diagnosis.id}
+              onClick={() => onSelectDiagnosis(match)}
+            >
               <div className="diagnosis-card-header">
                 <p className="diagnosis-name">{match.diagnosis.name}</p>
                 <span className={`confidence-badge confidence-badge--${match.level}`}>
@@ -41,10 +52,15 @@ export function DiagnosisResults({ groupName, matches, onBackToSymptoms }: Diagn
                 </span>
               </div>
               <p className="diagnosis-summary">{match.diagnosis.summary}</p>
+              <p className="diagnosis-telltale">
+                <span className="diagnosis-telltale-label">Telltale sign: </span>
+                {match.diagnosis.telltaleSign}
+              </p>
               <p className="diagnosis-match-detail">
                 {match.matchedCount} of {match.totalIndicators} matching signs
               </p>
-            </div>
+              <p className="diagnosis-card-cta">See recovery & prevention tips →</p>
+            </button>
           ))}
         </div>
       )}

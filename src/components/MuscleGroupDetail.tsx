@@ -2,8 +2,9 @@ import { useState } from 'react';
 import { motion } from 'framer-motion';
 import type { MuscleGroup } from '../data/muscleGroups';
 import { SYMPTOM_CATEGORIES_BY_GROUP, type SymptomCategoryId } from '../data/symptoms';
-import { getDiagnosisMatches } from '../data/diagnoses';
+import { getDiagnosisMatches, type DiagnosisMatch } from '../data/diagnoses';
 import { DiagnosisResults } from './DiagnosisResults';
+import { RecoveryPlan } from './RecoveryPlan';
 import './MuscleGroupDetail.css';
 
 type MuscleGroupDetailProps = {
@@ -12,11 +13,13 @@ type MuscleGroupDetailProps = {
 };
 
 type Selections = Partial<Record<SymptomCategoryId, string[]>>;
+type View = 'symptoms' | 'results' | 'recovery';
 
 export function MuscleGroupDetail({ group, onBack }: MuscleGroupDetailProps) {
   const categories = SYMPTOM_CATEGORIES_BY_GROUP[group.id] ?? [];
   const [selections, setSelections] = useState<Selections>({});
-  const [showResults, setShowResults] = useState(false);
+  const [view, setView] = useState<View>('symptoms');
+  const [selectedMatch, setSelectedMatch] = useState<DiagnosisMatch | null>(null);
 
   function toggleOption(categoryId: SymptomCategoryId, optionId: string) {
     setSelections((current) => {
@@ -42,11 +45,17 @@ export function MuscleGroupDetail({ group, onBack }: MuscleGroupDetailProps) {
         ← Back to body
       </button>
 
-      {showResults ? (
+      {view === 'recovery' && selectedMatch ? (
+        <RecoveryPlan diagnosis={selectedMatch.diagnosis} onBackToResults={() => setView('results')} />
+      ) : view === 'results' ? (
         <DiagnosisResults
           groupName={group.name}
           matches={getDiagnosisMatches(group.id, selections)}
-          onBackToSymptoms={() => setShowResults(false)}
+          onBackToSymptoms={() => setView('symptoms')}
+          onSelectDiagnosis={(match) => {
+            setSelectedMatch(match);
+            setView('recovery');
+          }}
         />
       ) : (
         <div className="symptom-panel">
@@ -79,7 +88,7 @@ export function MuscleGroupDetail({ group, onBack }: MuscleGroupDetailProps) {
             );
           })}
 
-          <button className="continue-button" disabled={totalSelected === 0} onClick={() => setShowResults(true)}>
+          <button className="continue-button" disabled={totalSelected === 0} onClick={() => setView('results')}>
             Continue
           </button>
         </div>

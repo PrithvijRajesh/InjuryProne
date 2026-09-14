@@ -27,4 +27,4 @@ Vite + React + TypeScript, single-page app, no backend yet. Framer Motion for an
 
 ## Current Focus
 
-Creating Diagnosis for each muscle group based on options and if multiple possible diagnosis including confidence.
+For each diagnosis creating recovery tips and prevention tips.
