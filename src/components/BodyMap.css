@@ -1,0 +1,80 @@
+.body-map-wrap {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 24px;
+}
+
+.body-map-credit {
+  color: var(--text-dim);
+  font-size: 0.75rem;
+  margin: 0;
+}
+
+.body-map-credit a {
+  color: var(--text-dim);
+}
+
+.body-map {
+  display: flex;
+  gap: clamp(24px, 6vw, 72px);
+  justify-content: center;
+  align-items: flex-start;
+  flex-wrap: wrap;
+}
+
+.body-figure {
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
+}
+
+.body-figure svg {
+  width: min(42vw, 380px);
+  height: auto;
+  overflow: visible;
+}
+
+.body-figure figcaption {
+  font-family: var(--font-display);
+  letter-spacing: 0.12em;
+  color: var(--text-dim);
+  font-size: 0.85rem;
+  text-transform: uppercase;
+}
+
+.body-decorative {
+  fill: var(--body-fill);
+  stroke: var(--bg);
+  stroke-width: 4;
+  stroke-linejoin: round;
+}
+
+.body-hotspot {
+  cursor: pointer;
+  outline: none;
+}
+
+.body-hotspot > * {
+  fill: var(--body-fill-hover);
+  stroke: var(--bg);
+  stroke-width: 4;
+  stroke-linejoin: round;
+  transition:
+    fill 0.15s ease,
+    stroke 0.15s ease,
+    filter 0.15s ease;
+}
+
+.body-hotspot:hover > *,
+.body-hotspot:focus-visible > * {
+  fill: var(--accent-dim);
+  stroke: var(--accent);
+  filter: drop-shadow(0 0 6px var(--accent-glow));
+}
+
+.body-hotspot:focus-visible {
+  outline: none;
+}

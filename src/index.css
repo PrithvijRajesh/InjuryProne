@@ -1,0 +1,48 @@
+:root {
+  --bg: #0a0b0d;
+  --bg-elevated: #141519;
+  --bg-panel: #1b1d23;
+  --border: #2a2d35;
+  --text: #eef0f4;
+  --text-dim: #9aa0ab;
+  --accent: #ff4d5e;
+  --accent-dim: #ff4d5e33;
+  --accent-glow: #ff4d5e88;
+  --body-fill: #d8dce4;
+  --body-fill-hover: #f2f4f8;
+
+  --font-display: "Bebas Neue", sans-serif;
+  --font-body: "Inter", system-ui, sans-serif;
+
+  color-scheme: dark;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html,
+body,
+#root {
+  height: 100%;
+}
+
+body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--text);
+  font-family: var(--font-body);
+  -webkit-font-smoothing: antialiased;
+}
+
+h1,
+h2,
+h3 {
+  font-family: var(--font-display);
+  letter-spacing: 0.02em;
+  margin: 0;
+}
+
+button {
+  font-family: inherit;
+}

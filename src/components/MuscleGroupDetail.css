@@ -1,0 +1,61 @@
+.detail-view {
+  max-width: 620px;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 14px;
+  text-align: center;
+}
+
+.back-button {
+  align-self: flex-start;
+  background: none;
+  border: 1px solid var(--border);
+  color: var(--text-dim);
+  padding: 8px 14px;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 0.9rem;
+  transition:
+    border-color 0.15s ease,
+    color 0.15s ease;
+}
+
+.back-button:hover {
+  border-color: var(--accent);
+  color: var(--text);
+}
+
+.symptom-panel {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+  padding: 24px;
+  background: var(--bg-panel);
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  width: 100%;
+}
+
+.selection-label {
+  color: var(--text-dim);
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  font-size: 0.75rem;
+  margin: 0;
+}
+
+.selection-name {
+  font-family: var(--font-display);
+  font-size: 2rem;
+  color: var(--accent);
+  margin: 0;
+}
+
+.selection-next {
+  color: var(--text-dim);
+  font-size: 0.9rem;
+  margin: 4px 0 0;
+}
