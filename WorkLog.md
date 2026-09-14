@@ -26,3 +26,20 @@ Feedback: the sub-muscle picker (zoomed anatomical image + individual muscle hot
 ### Update — added Knees and Groin/Inner Thigh as clickable groups
 
 Feedback: the diagram had no way to select knee pain or groin/inner-thigh strains — both very common athletic injuries (ACL/meniscus/patellar tendon, groin pulls) — because those regions existed in the body art only as non-clickable filler. Promoted both to real clickable muscle groups (front view) using the polygon shapes that were already sitting there as decoration. Quads (front thigh) and Hamstrings (back thigh) already covered "thigh" more generally. Verified in-browser: hovering highlights both knees/both groin regions together (matches how paired left/right groups already behave elsewhere), clicking Knees shows the confirmation screen correctly.
+
+## 2026-09-12 — Symptom questions (Milestone 2)
+
+Built the symptom-selection step: clicking a muscle group now leads straight into a tailored, multi-select symptom picker instead of the "coming in a later feature" placeholder.
+
+- Added `src/data/symptoms.ts` with a plain-language symptom list per muscle group (all 13 groups covered), written so someone without medical background can self-report — e.g. Knees asks about locking/catching and giving way, Chest asks about pain on a deep breath, Hamstrings asks about a pop/snap felt at the time of injury.
+- Updated `MuscleGroupDetail.tsx` to render the group's symptoms as toggle chips; any number can be selected at once, and a "Continue" button stays disabled until at least one is picked.
+- Verified in-browser: Chest and Knees each show their own distinct symptom set, multiple chips can be selected/deselected together, Continue enables/disables correctly, and Back to body resets the selection. Typecheck (`tsc -b`) clean.
+
+### Update — split symptoms into 4 tailored categories, fixed body map sizing
+
+Feedback: a flat symptom list wasn't specific enough to lead to an accurate diagnosis — needed separate categories for location within the group, pain type, what triggers/worsens it, and what activities the user does regularly (e.g. knee + below the kneecap + worse when bending/running + still a growing teen athlete should point toward Osgood-Schlatter specifically). Also asked to fix the body map: front/back figures should be the same size (back looked longer since it includes the calves), and the credit line should sit lower, near the bottom of the screen, instead of right under the images.
+
+- Rewrote `src/data/symptoms.ts`: replaced the flat per-group list with `SYMPTOM_CATEGORIES_BY_GROUP`, 4 fully tailored categories per group (location, pain type, trigger, activities) — nothing shared across groups.
+- Updated `MuscleGroupDetail.tsx` to render each category as its own labeled chip section, with selections tracked per-category so choices across categories combine independently.
+- Fixed the body map: raised `OVERVIEW_VIEWBOX` height from 2000 to 2200 (the back view's calves actually extend to y=2200 in the shared coordinate space, so the old 2000 box let them overflow past the SVG's edge, making the back figure look taller than the front). Pushed the credit line toward the bottom of the screen via a `justify-content: space-between` flex layout on the body-map wrapper.
+- Verified in-browser: Quads shows its own 4-category layout, selections across different categories (location + trigger + activity) track independently, Continue enables correctly, front/back figures now render at the same size with no calf overflow, and the credit line sits near the bottom of the page. Typecheck clean.

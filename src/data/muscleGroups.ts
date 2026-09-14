@@ -13,7 +13,7 @@ export type MuscleGroup = {
 // Same viewBox/coordinate space the source library renders at.
 // Height covers the tallest content across both views (the back view's calves
 // reach y=2200) so the front and back figures render at the same box size.
-export const OVERVIEW_VIEWBOX = { w: 1000, h: 2000 };
+export const OVERVIEW_VIEWBOX = { w: 1000, h: 2200 };
 
 function poly(...pointSets: string[]): PolygonShape[] {
   return pointSets.map((points) => ({ kind: 'polygon', points }));

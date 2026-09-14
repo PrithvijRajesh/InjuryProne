@@ -1,5 +1,7 @@
+import { useState } from 'react';
 import { motion } from 'framer-motion';
 import type { MuscleGroup } from '../data/muscleGroups';
+import { SYMPTOM_CATEGORIES_BY_GROUP, type SymptomCategoryId } from '../data/symptoms';
 import './MuscleGroupDetail.css';
 
 type MuscleGroupDetailProps = {
@@ -7,7 +9,25 @@ type MuscleGroupDetailProps = {
   onBack: () => void;
 };
 
+type Selections = Partial<Record<SymptomCategoryId, string[]>>;
+
 export function MuscleGroupDetail({ group, onBack }: MuscleGroupDetailProps) {
+  const categories = SYMPTOM_CATEGORIES_BY_GROUP[group.id] ?? [];
+  const [selections, setSelections] = useState<Selections>({});
+  const [submitted, setSubmitted] = useState(false);
+
+  function toggleOption(categoryId: SymptomCategoryId, optionId: string) {
+    setSelections((current) => {
+      const selected = current[categoryId] ?? [];
+      const next = selected.includes(optionId)
+        ? selected.filter((id) => id !== optionId)
+        : [...selected, optionId];
+      return { ...current, [categoryId]: next };
+    });
+  }
+
+  const totalSelected = Object.values(selections).reduce((sum, ids) => sum + (ids?.length ?? 0), 0);
+
   return (
     <motion.div
       className="detail-view"
@@ -23,7 +43,40 @@ export function MuscleGroupDetail({ group, onBack }: MuscleGroupDetailProps) {
       <div className="symptom-panel">
         <p className="selection-label">Selected</p>
         <p className="selection-name">{group.name}</p>
-        <p className="selection-next">Symptom questions are coming in a later feature.</p>
+        <p className="symptom-prompt">Answer what applies — you can pick more than one in each section.</p>
+
+        {categories.map((category) => {
+          const selected = selections[category.id] ?? [];
+          return (
+            <div className="symptom-category" key={category.id}>
+              <p className="category-label">{category.label}</p>
+              <div className="symptom-list" role="group" aria-label={category.label}>
+                {category.options.map((option) => {
+                  const isSelected = selected.includes(option.id);
+                  return (
+                    <button
+                      key={option.id}
+                      type="button"
+                      className={`symptom-chip${isSelected ? ' symptom-chip--selected' : ''}`}
+                      aria-pressed={isSelected}
+                      onClick={() => toggleOption(category.id, option.id)}
+                    >
+                      {option.label}
+                    </button>
+                  );
+                })}
+              </div>
+            </div>
+          );
+        })}
+
+        <button className="continue-button" disabled={totalSelected === 0} onClick={() => setSubmitted(true)}>
+          Continue
+        </button>
+
+        {submitted && (
+          <p className="selection-next">Diagnosis (next feature) is coming in a later feature.</p>
+        )}
       </div>
     </motion.div>
   );
